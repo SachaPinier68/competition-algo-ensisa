@@ -1,0 +1,32 @@
+# Binaires et fichiers de compilation C/C++
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.so
+*.dll
+*.dSYM/
+a.out
+build/
+bin/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Java
+*.class
+
+# Éditeurs et IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Systèmes
+.DS_Store
+Thumbs.db
+desktop.ini
