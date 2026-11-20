@@ -19,7 +19,7 @@ struct arbre{
     int node;
     struct arbre *left_tree;
     struct arbre *right_tree;
-};
+} arbre;
 typedef struct arbre *tree;
 #define empty NULL
 
@@ -46,6 +46,8 @@ int main()
 {
     int n = parse_int(ltrim(rtrim(readline())));
 
+    tree librairie;
+
     for (int n_itr = 0; n_itr < n; n_itr++) {
         int x = parse_int(ltrim(rtrim(readline())));
 
@@ -57,7 +59,7 @@ int main()
     for (int q_itr = 0; q_itr < q; q_itr++) {
         int query = parse_int(ltrim(rtrim(readline())));
 
-        // Write your code here
+        is_in_library(q, librairie);
     }
 
     return 0;
