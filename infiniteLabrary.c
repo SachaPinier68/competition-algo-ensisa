@@ -19,7 +19,7 @@ struct arbre{
     int node;
     struct arbre *left_tree;
     struct arbre *right_tree;
-};
+}arbre;
 typedef struct arbre *tree;
 #define empty NULL
 
