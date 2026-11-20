@@ -15,6 +15,31 @@ char* rtrim(char*);
 
 int parse_int(char*);
 
+struct arbre{
+    int node;
+    struct arbre *left_tree;
+    struct arbre *right_tree;
+};
+typedef struct arbre *tree;
+#define empty NULL
+
+
+int search(int nid, tree library){
+    if (library->node == nid) { return 1 ;}
+    else if (nid < library->node) { 
+        if (library->left_tree == NULL) { return 0; }
+        search(nid, library->left_tree);
+    }
+    else if (nid > library->node) {
+        if (library->right_tree == NULL) { return 0;}
+        search(nid, library->right_tree);
+    }
+}
+
+void is_in_library(int nid, tree library){
+    if (search(nid, library)) { printf("YES"); }
+    else { printf("NO"); }
+}
 
 
 int main()
