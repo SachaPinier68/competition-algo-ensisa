@@ -23,28 +23,94 @@ struct arbre{
     int depth;
     struct arbre *left_tree;
     struct arbre *right_tree;
-} arbre;
+}arbre;
 typedef struct arbre *tree;
 #define empty NULL
 
 
-int search(int nid, tree library){
-    if (library->node == nid) { return 1 ;}
-    else if (nid < library->node) { 
-        if (library->left_tree == NULL) { return 0; }
-        search(nid, library->left_tree);
-    }
-    else if (nid > library->node) {
-        if (library->right_tree == NULL) { return 0;}
-        search(nid, library->right_tree);
-    }
+int depth(tree t){
+    return t ? t->depth : 0;
 }
+
+int max_int(int a, int b){
+    return a > b ? a : b;
+}
+
+void update_depth(tree t){
+    t->depth = 1 + max_int(depth(t->left_tree), depth(t->right_tree));
+}
+
+tree new_node(int x){
+    tree t = malloc(sizeof(struct arbre));
+    t->node = x;
+    t->depth = 1;
+    t->left_tree = empty;
+    t->right_tree = empty;
+    return t;
+}
+
+tree rotate_right(tree y){
+    tree x = y->left_tree;
+    y->left_tree = x->right_tree;
+    x->right_tree = y;
+    update_depth(y);
+    update_depth(x);
+    return x;
+}
+
+tree rotate_left(tree x){
+    tree y = x->right_tree;
+    x->right_tree = y->left_tree;
+    y->left_tree = x;
+    update_depth(x);
+    update_depth(y);
+    return y;
+}
+
+tree insert(tree library, int x){
+    if (library == empty) return new_node(x);
+
+    if (x < library->node)
+        library->left_tree = insert(library->left_tree, x);
+    else if (x > library->node)
+        library->right_tree = insert(library->right_tree, x);
+    else
+        return library;                      // doublon : on ignore
+
+    update_depth(library);
+    int balance = depth(library->left_tree) - depth(library->right_tree);
+
+    if (balance > 1) {                       // trop lourd à gauche
+        if (x > library->left_tree->node)
+            library->left_tree = rotate_left(library->left_tree);
+        return rotate_right(library);
+    }
+    if (balance < -1) {                      // trop lourd à droite
+        if (x < library->right_tree->node)
+            library->right_tree = rotate_right(library->right_tree);
+        return rotate_left(library);
+    }
+    return library;
+}
+
+int search(int nid, tree library){
+    while (library != empty) {
+        if (nid == library->node) return 1;
+        library = (nid < library->node) ? library->left_tree : library->right_tree;
+    }
+    return 0;
+}
+
 
 void git_sorting(tree library){
     if (library == empty) return;
     git_sorting(library->left_tree);
     printf("%d\n", library->node);
     git_sorting(library->right_tree);
+}
+
+void is_in_library(int nid, tree library){
+    puts(search(nid, library) ? "YES" : "NO");
 }
 
 
