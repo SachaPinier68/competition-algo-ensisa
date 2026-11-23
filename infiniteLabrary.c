@@ -15,6 +15,9 @@ char* rtrim(char*);
 
 int parse_int(char*);
 
+
+
+// DEFINITION DE LA STRUCTURE
 struct arbre{
     int node;
     struct arbre *left_tree;
@@ -23,6 +26,23 @@ struct arbre{
 typedef struct arbre *tree;
 #define empty NULL
 
+
+// OPERATIONS ELEMENTAIRES
+tree insert(tree library, int val) {
+    if (library == NULL) {
+        tree newNode = (tree)malloc(sizeof(struct arbre));
+        newNode->node = val;
+        newNode->left_tree = NULL;
+        newNode->right_tree = NULL;
+        return newNode;
+    }
+    if (val < library->node) {
+        library->left_tree = insert(library->left_tree, val);
+    } else if (val > library->node) {
+        library->right_tree = insert(library->right_tree, val);
+    }
+    return library;
+}
 
 int search(int nid, tree library){
     if (library->node == nid) { return 1 ;}
@@ -42,6 +62,8 @@ void is_in_library(int nid, tree library){
 }
 
 
+
+// MAIN
 int main()
 {
     int n = parse_int(ltrim(rtrim(readline())));
@@ -50,16 +72,14 @@ int main()
 
     for (int n_itr = 0; n_itr < n; n_itr++) {
         int x = parse_int(ltrim(rtrim(readline())));
-
-        // Write your code here
+        librairie = insert(librairie, x);
     }
 
     int q = parse_int(ltrim(rtrim(readline())));
 
     for (int q_itr = 0; q_itr < q; q_itr++) {
         int query = parse_int(ltrim(rtrim(readline())));
-
-        is_in_library(q, librairie);
+        is_in_library(query, librairie);
     }
 
     return 0;
