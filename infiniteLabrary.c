@@ -19,10 +19,9 @@ struct arbre{
     int node;
     struct arbre *left_tree;
     struct arbre *right_tree;
-};
+}arbre;
 typedef struct arbre *tree;
 #define empty NULL
-
 
 int search(int nid, tree library){
     if (library->node == nid) { return 1 ;}
@@ -34,6 +33,13 @@ int search(int nid, tree library){
         if (library->right_tree == NULL) { return 0;}
         search(nid, library->right_tree);
     }
+}
+
+void sorting(tree library, int x){
+
+}
+int depth(tree library){
+    
 }
 
 void is_in_library(int nid, tree library){
