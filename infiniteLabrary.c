@@ -80,12 +80,12 @@ tree insert(tree library, int x){
     update_depth(library);
     int balance = depth(library->left_tree) - depth(library->right_tree);
 
-    if (balance > 1) {                       // trop lourd à gauche
+    if (balance > 1) {                       // trop lourd a gauche
         if (x > library->left_tree->node)
             library->left_tree = rotate_left(library->left_tree);
         return rotate_right(library);
     }
-    if (balance < -1) {                      // trop lourd à droite
+    if (balance < -1) {                      // trop lourd a droite
         if (x < library->right_tree->node)
             library->right_tree = rotate_right(library->right_tree);
         return rotate_left(library);
@@ -118,7 +118,7 @@ int main()
 {
     int n = parse_int(ltrim(rtrim(readline())));
 
-    tree librairie;
+    tree librairie = empty;   // arbre vide au depart (sinon adresse au hasard)
 
     for (int n_itr = 0; n_itr < n; n_itr++) {
         int x = parse_int(ltrim(rtrim(readline())));

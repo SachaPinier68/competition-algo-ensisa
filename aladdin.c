@@ -17,30 +17,41 @@ char** split_string(char*);
 int parse_int(char*);
 
 
-int n, m;        
-int *route_a;    
-int *route_b;    
-int *dist;       
-int *file;      
 
+struct maillon {
+    int lieu;
+    struct maillon *suivant;
+};
+
+int n, m;
+struct maillon **voisins;   
+int *dist;                 
+int *file;
+
+
+void ajouter_voisin(int x, int y)
+{
+    struct maillon *nouveau = malloc(sizeof(struct maillon));
+    nouveau->lieu = y;
+    nouveau->suivant = voisins[x];
+    voisins[x] = nouveau;
+}
 
 void parcoursBFS(int depart)
 {
-    int debut = 0;   
-    int fin = 0;            
+    int debut = 0;
+    int fin = 0;
 
     dist[depart] = 0;
     file[fin] = depart;
     fin++;
 
     while (debut < fin) {
-        int x = file[debut];      
+        int x = file[debut];
         debut++;
-        for (int i = 0; i < m; i++) {
-            int voisin = -1;
-            if (route_a[i] == x) voisin = route_b[i];
-            if (route_b[i] == x) voisin = route_a[i];
-            if (voisin != -1 && dist[voisin] == -1) {
+        for (struct maillon *p = voisins[x]; p != NULL; p = p->suivant) {
+            int voisin = p->lieu;
+            if (dist[voisin] == -1) {
                 dist[voisin] = dist[x] + 1;
                 file[fin] = voisin;
                 fin++;
@@ -57,17 +68,18 @@ int main()
 
     m = parse_int(*(first_multiple_input + 1));
 
-    route_a = malloc((m + 1) * sizeof(int));
-    route_b = malloc((m + 1) * sizeof(int));
+    voisins = malloc((n + 1) * sizeof(struct maillon *));
     dist    = malloc((n + 1) * sizeof(int));
     file    = malloc((n + 1) * sizeof(int));
+    for (int x = 1; x <= n; x++) voisins[x] = NULL;   
 
     for (int m_itr = 0; m_itr < m; m_itr++) {
         char** second_multiple_input = split_string(rtrim(readline()));
         int u = parse_int(*(second_multiple_input + 0));
         int v = parse_int(*(second_multiple_input + 1));
-        route_a[m_itr] = u;
-        route_b[m_itr] = v;
+        ajouter_voisin(u, v); 
+        ajouter_voisin(v, u);
+        free(second_multiple_input);
     }
 
     char** third_multiple_input = split_string(rtrim(readline()));
@@ -77,22 +89,22 @@ int main()
     int B = parse_int(*(third_multiple_input + 1));
 
     /* ===== Tache 1 : compter les royaumes ===== */
-    for (int x = 1; x <= n; x++) dist[x] = -1;  
+    for (int x = 1; x <= n; x++) dist[x] = -1;
 
     int royaumes = 0;
     for (int x = 1; x <= n; x++) {
-        if (dist[x] == -1) {     
+        if (dist[x] == -1) {
             royaumes++;
-            parcoursBFS(x);          
+            parcoursBFS(x);
         }
     }
 
     /* ===== Tache 2 : plus court chemin de A a B ===== */
-    for (int x = 1; x <= n; x++) dist[x] = -1;  
+    for (int x = 1; x <= n; x++) dist[x] = -1;
     parcoursBFS(A);
 
     printf("%d\n", royaumes);
-    printf("%d\n", dist[B]);      
+    printf("%d\n", dist[B]);
 
     return 0;
 }
