@@ -9,12 +9,39 @@
 #include <stdlib.h>
 #include <string.h>
 
+int *A;
+
 char* readline();
 char* ltrim(char*);
 char* rtrim(char*);
 
 int parse_int(char*);
+void swap (int *a , int *b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
 
+int partition(int *A, int high, int low){
+    int pivot = &A[high];
+    int i = &A[low -1];
+    for(int j = low; j < high; j++){
+        if (A[j] >= pivot){
+            i++;
+            swap(&A[i],&A[j]);
+        }
+    }   
+    swap(&A[i + 1], &A[high]);
+    return (i + 1);
+}
+
+int quicksort(int low, int high){
+    if(low > high){
+        int pi = partition(&A, low, high);
+        quicksort(low, pi -1);
+        quicksort(pi + 1, high);
+    }
+}
 
 
 int main()
