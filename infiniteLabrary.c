@@ -75,7 +75,7 @@ tree insert(tree library, int x){
     else if (x > library->node)
         library->right_tree = insert(library->right_tree, x);
     else
-        return library;                      // doublon : on ignore
+        return library;                      
 
     update_depth(library);
     int balance = depth(library->left_tree) - depth(library->right_tree);
