@@ -22,9 +22,9 @@ void swap (int *a , int *b){
     *b = temp;
 }
 
-int partition(int *A, int high, int low){
-    int pivot = &A[high];
-    int i = &A[low -1];
+int partition(int low, int high){
+    int pivot = A[high];
+    int i = low -1;
     for(int j = low; j < high; j++){
         if (A[j] >= pivot){
             i++;
@@ -35,9 +35,9 @@ int partition(int *A, int high, int low){
     return (i + 1);
 }
 
-int quicksort(int low, int high){
-    if(low > high){
-        int pi = partition(&A, low, high);
+void quicksort(int low, int high){
+    if(low < high){
+        int pi = partition(low, high);
         quicksort(low, pi -1);
         quicksort(pi + 1, high);
     }

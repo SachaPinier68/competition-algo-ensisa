@@ -29,18 +29,42 @@ int puissance10(int n) {
     return r;
 }
 
-int main()
-{
+int main() {
     char** first_multiple_input = split_string(rtrim(readline()));
+    if (!first_multiple_input) return 0;
 
     int D = parse_int(*(first_multiple_input + 0));
     int S = parse_int(*(first_multiple_input + 1));
 
-    int s = S-1;
-    int q = s/9; int r = s%9;
-    int res = puissance10(D-1) + puissance10(q) - 1 +r*puissance10(q);
-    printf("%i\n", res);
-    return res;
+    char* res_str = (char*)malloc((D + 1) * sizeof(char));
+    if (!res_str) return 0;
+
+    for (int i = 0; i < D; i++) {
+        res_str[i] = '0';
+    }
+
+    res_str[D] = '\0';
+    res_str[0] = '1';
+
+    long long s = S - 1;
+    long long q = s / 9;
+    long long r = s % 9;
+
+    for (long long i = 0; i < q && (D - 1 - i) >= 0; i++) {
+        res_str[D - 1 - i] = '9';
+    }
+
+    if (q < D) {
+        int current_val = res_str[D - 1 - q] - '0';
+        res_str[D - 1 - q] = (current_val + r) + '0';
+    }
+
+    printf("%s\n", res_str);
+
+    free(res_str);
+    free(first_multiple_input);
+
+    return 0;
 }
 
 char* readline() {
