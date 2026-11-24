@@ -16,17 +16,32 @@ char** split_string(char*);
 
 int parse_int(char*);
 
-
+int puissance(int x, int n){
+    int r = 1;
+    while (n>0){
+        r = r*x;
+        n = n-1;
+    }
+    return r;
+}
 
 int main()
 {
     char** first_multiple_input = split_string(rtrim(readline()));
 
     int D = parse_int(*(first_multiple_input + 0));
-
     int S = parse_int(*(first_multiple_input + 1));
 
-    return 0;
+    int d = 0;
+    int r = puissance(10,(D-1));
+    int s = S-1;
+    while(s>9){
+        r = r + 9*puissance(10,d);
+        d = d + 1;
+        s = s - 9;
+    }
+    r = r+s*puissance(10,D-1);
+    return r;
 }
 
 char* readline() {
