@@ -16,46 +16,37 @@ char* ltrim(char*);
 char* rtrim(char*);
 
 int parse_int(char*);
-void swap (int *a , int *b){
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-int partition(int low, int high){
-    int pivot = A[high];
-    int i = low -1;
-    for(int j = low; j < high; j++){
-        if (A[j] >= pivot){
-            i++;
-            swap(&A[i],&A[j]);
-        }
-    }   
-    swap(&A[i + 1], &A[high]);
-    return (i + 1);
-}
-
-void quicksort(int low, int high){
-    if(low < high){
-        int pi = partition(low, high);
-        quicksort(low, pi -1);
-        quicksort(pi + 1, high);
-    }
+int compare(const void *a, const void *b){
+    int x = *(const int *)a;
+    int y = *(const int *)b;
+    if (x > y) return -1;
+    if (x < y) return 1;
+    return 0;
 }
 
 
 int main()
 {
     int n = parse_int(ltrim(rtrim(readline())));
+    A = malloc(n * sizeof(int));
+    long long k=0;   
 
     for (int n_itr = 0; n_itr < n; n_itr++) {
         int x = parse_int(ltrim(rtrim(readline())));
-
-        // Write your code here
+        A[n_itr]=x;
+        k+=x;
     }
-
-    // Write your code here
-
+    qsort(A, n, sizeof(int), compare);
+    long long sum=0;
+    int i=0;
+    while (2*sum <= k){  
+        sum += A[i];
+        i++;
+    }
+    printf("%i\n",i);
+    for(int p=0;p<i;p++){
+        printf("%i\n",A[p]);
+    }
     return 0;
 }
 
