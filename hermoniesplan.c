@@ -10,6 +10,7 @@
 #include <string.h>
 
 char* readline();
+
 char* ltrim(char*);
 char* rtrim(char*);
 char** split_string(char*);
@@ -43,6 +44,16 @@ int main() {
         res_str[i] = '0';
     }
 
+    if (S < 1 || S > 9 * D) {
+        if (D == 1 && S == 0) {
+            printf("0\n");
+        } else {
+            printf("-1\n");
+        }
+        free(first_multiple_input);
+        return 0;
+    }
+    
     res_str[D] = '\0';
     res_str[0] = '1';
 
